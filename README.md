@@ -31,6 +31,59 @@ The first version will prioritize personality and safety over advanced autonomy:
 Autonomous mapping, facial recognition, continuous recording, and walking legs
 are intentionally outside the first prototype.
 
+## Repository scope
+
+This repository is Desky's main monorepo and source of truth. It will contain
+the complete robot project: mainframe software, controller firmware, electronics,
+mechanical designs, printable models, personality assets, development tools,
+tests, and documentation.
+
+Keeping these parts together during prototyping makes changes across the physical
+design, electronics, firmware, and conversational behavior easier to coordinate.
+An independently maintained component can move to its own repository later if
+there is a clear release or ownership boundary.
+
+## Planned repository structure
+
+```text
+desky/
+├── apps/
+│   └── mainframe/          # Raspberry Pi voice, AI, face, and behavior runtime
+├── firmware/
+│   └── motion-controller/  # ESP32 motors, servos, sensors, and safety watchdog
+├── hardware/
+│   ├── electronics/        # Schematics, wiring diagrams, and PCB designs
+│   ├── mechanical/         # Editable CAD sources and assembly design
+│   └── manufacturing/      # STL, 3MF, and other fabrication exports
+├── assets/
+│   ├── expressions/        # Eyes, smiles, and animation assets
+│   └── sounds/             # Original startup and interaction sounds
+├── shared/
+│   └── protocols/          # Mainframe-to-controller messages and events
+├── tools/                  # Setup, flashing, calibration, and diagnostics
+├── tests/
+│   └── hardware/           # Repeatable hardware validation procedures
+└── docs/
+    ├── decisions/          # Architecture decision records
+    └── journey/            # Chronological experiments and build logs
+```
+
+Directories will be added when their first implementation or design artifact is
+ready rather than creating empty placeholders.
+
+### Repository rules
+
+- Safety-critical movement and emergency-stop behavior belong in the ESP32
+  firmware and must not depend on Linux, Wi-Fi, or a cloud service.
+- The mainframe-to-controller protocol should be defined in `shared/protocols`
+  before both sides independently implement it.
+- Editable design sources should be committed alongside manufacturing exports.
+- Large CAD files, models, images, audio, and videos should use Git LFS.
+- Recordings, credentials, API keys, generated builds, and personal data must
+  never be committed.
+- Important technical tradeoffs belong in decision records; physical experiments
+  and failures belong in the build journey.
+
 ## Documentation
 
 | Document | Purpose |
